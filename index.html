@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>七十二候の暦</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter>
+</svg>
+
+<header class="bar">
+  <div class="mark"><b>暦</b><span>七十二候のしおり</span></div>
+  <div class="roman">The Seventy&#8209;Two Micro&#8209;Seasons of Japan</div>
+</header>
+
+<main>
+  <section class="hero" id="top">
+    <canvas id="sky" aria-hidden="true"></canvas>
+    <div class="swm" id="swm" aria-hidden="true"></div>
+    <div class="hero-aside">
+      <div class="eyebrow" id="eyebrow">今日の候</div>
+      <div class="wareki" id="wareki"></div>
+      <p class="until" id="until"></p>
+      <div class="progress" id="progress"></div>
+      <label class="pick">ほかの日をひらく<input type="date" id="pick" min="2001-01-01" max="2099-12-31"><button type="button" id="reset" hidden>今日に戻る</button></label>
+    </div>
+
+    <div class="stage">
+      <svg class="enso" viewBox="0 0 600 600" aria-hidden="true">
+        <defs>
+          <filter id="brush" x="-10%" y="-10%" width="120%" height="120%">
+            <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="7" result="t"/>
+            <feDisplacementMap in="SourceGraphic" in2="t" scale="10" result="d"/>
+            <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="1" seed="2" result="g"/>
+            <feDisplacementMap in="d" in2="g" scale="3"/>
+          </filter>
+          <radialGradient id="washg" cx="50%" cy="46%" r="50%">
+            <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+            <stop offset="1" stop-color="#000" stop-opacity="1"/>
+          </radialGradient>
+        </defs>
+        <circle class="wash" cx="300" cy="300" r="214"/>
+        <g filter="url(#brush)" class="enso-ink">
+          <path class="stroke s3" d="M415 101 A230 230 0 1 1 260 74"/>
+          <path class="stroke s1" d="M415 101 A230 230 0 1 1 260 74"/>
+          <path class="stroke s2" d="M402 96 A236 236 0 1 1 268 66"/>
+        </g>
+      </svg>
+      <h1 class="ko-title"><span class="ko-kanji" id="hKanji"></span><span class="ko-yomi" id="hYomi"></span></h1>
+      <div class="seal" id="hSeal"></div>
+    </div>
+
+    <div class="hero-poem" id="poem"></div>
+    <div class="cue">めぐる</div>
+  </section>
+
+  <section class="block" id="wheel">
+    <div class="head rv">
+      <h2><span class="roman">i. &nbsp;The Wheel of the Year</span>七十二候をめぐる</h2>
+      <p>一年を二十四の節気に分け、さらにそれぞれを三つに分けた七十二の季節。およそ五日ごとに、名前のある季節が訪れます。円環の一片を選ぶと、その候がひらきます。</p>
+    </div>
+    <div class="wheel">
+      <div class="dial-wrap rv d1">
+        <svg id="dial" viewBox="0 0 840 840" role="img" aria-label="七十二候の円環"></svg>
+        <div class="dial-center"><div class="n" id="cNum"></div><div class="k" id="cKanji"></div><div class="y" id="cSekki"></div></div>
+      </div>
+      <aside class="panel rv d2" id="panel">
+        <div class="meta"><span id="pNum"></span><span class="chip"><i></i><span id="pSeason"></span></span></div>
+        <div id="pBody">
+          <h3 id="pKanji"></h3>
+          <div class="yomi" id="pYomi"></div>
+          <div class="rule"></div>
+          <p class="desc" id="pDesc"></p>
+          <p class="period" id="pPeriod"></p>
+        </div>
+        <div class="nav">
+          <button id="prev" aria-label="前の候">← 前の候</button>
+          <button id="next" aria-label="次の候">次の候 →</button>
+          <button class="today" id="today">いまの候へ</button>
+        </div>
+        <p class="hint">キーボードの ← → でも移動できます</p>
+        <div class="legend"><span>外側から　月・七十二候・二十四節気・四季</span><span><i class="dot"></i>朱の針が示す日</span></div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="block" id="three">
+    <div class="head rv">
+      <h2 id="tHead"></h2>
+      <p id="tLead"></p>
+    </div>
+    <div class="trip rv d1" id="trip"></div>
+    <div class="seasons rv d2" id="seasons"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="big">各候の始まりは、太陽の黄経を毎年計算して日本時間で求めています。<br>国立天文台の暦と、まれに一日ずれることがあります。</div>
+  <div id="foot"></div>
+</footer>
+
+<script src="data.js"></script>
+<script src="motion.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
